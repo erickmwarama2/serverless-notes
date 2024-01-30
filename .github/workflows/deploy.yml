@@ -36,7 +36,7 @@ jobs:
         run: npm install -g serverless
       - name: Set serverless config
         run: serverless config credentials --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_ACCESS_SECRET }} --provider aws --overwrite
-      - name: Install aws-sdk
-        run: npm install aws-sdk
+      - name: Install npm dependencies
+        run: npm install
       - name: Deploy service
         run: serverless deploy --region eu-west-1 --verbose
