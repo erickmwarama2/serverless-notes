@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/erickmwarama2/serverless-notes/issues"
   },
-  "homepage": "https://github.com/erickmwarama2/serverless-notes#readme"
+  "homepage": "https://github.com/erickmwarama2/serverless-notes#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1546.0"
+  }
 }
