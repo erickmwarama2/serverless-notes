@@ -26,7 +26,6 @@ module.exports.deleteNote = async (event) => {
 };
 
 module.exports.getAllNotes = async (event) => {
-  let notesid = event.pathParameters.id;
 
   return {
     statusCode: 200,
