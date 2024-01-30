@@ -39,4 +39,4 @@ jobs:
       - name: Install aws-sdk
         run: npm install aws-sdk
       - name: Deploy service
-        run: serverless deploy --verbose
+        run: serverless deploy --region eu-west-1 --verbose

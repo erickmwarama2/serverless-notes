@@ -1,0 +1,16 @@
+service: notes
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-1
+  stage: dev
+
+functions:
+  createNote:
+    handler: handler.createNote
+    events:
+      - http:
+          method: post
+          path: notes
