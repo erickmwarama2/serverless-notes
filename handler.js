@@ -32,7 +32,7 @@ module.exports.createNote = async (event) => {
 };
 
 module.exports.updateNote = async (event) => {
-  let notesid = event.pathParameters.id;
+  let notesId = event.pathParameters.id;
   let data = JSON.parse(event.body);
 
   try {
