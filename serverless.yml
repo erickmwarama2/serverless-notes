@@ -6,6 +6,8 @@ provider:
   runtime: nodejs18.x
   region: eu-west-1
   stage: dev
+  environment:
+    NOTES_TABLE_NAME: !Ref notesTable
 
 
 resources:
@@ -37,8 +39,6 @@ functions:
           path: notes
   updateNote:
     handler: handler.updateNote
-    environment:
-      NOTES_TABLE_NAME: !Ref notesTable
     iamRoleStatements:
     - Effect: Allow
       Action:
@@ -50,6 +50,11 @@ functions:
           path: notes/{id}
   deleteNote:
     handler: handler.deleteNote
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DeleteItem
+      Resource: !GetAtt notesTable.Arn
     events:
       - http:
           method: delete

@@ -68,12 +68,29 @@ module.exports.updateNote = async (event) => {
 };
 
 module.exports.deleteNote = async (event) => {
-  let notesid = event.pathParameters.id;
+  let notesId = event.pathParameters.id;
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(`Note with id: ${notesid} has been deleted`)
-  };
+  try {
+    const params = {
+      TableName: NOTES_TABLE_NAME,
+      Key: {
+        notesId
+      },
+      ConditionExpression: 'attribute_exists(notesId)'
+    }
+
+    await documentClient.delete(params).promise();
+
+    return {
+      statusCode: 200,
+      body: `note ${notesId} succesfully deleted`
+    };
+  } catch (error) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(error.message)
+    }
+  }
 };
 
 module.exports.getAllNotes = async (event) => {
