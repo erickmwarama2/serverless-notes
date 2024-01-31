@@ -28,7 +28,7 @@ functions:
     - Effect: Allow
       Action:
         - dynamodb:PutItem
-      Resources: !GetAtt notesTable.Arn
+      Resource: !GetAtt notesTable.Arn
     events:
       - http:
           method: post
