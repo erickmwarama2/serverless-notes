@@ -18,5 +18,8 @@
   "homepage": "https://github.com/erickmwarama2/serverless-notes#readme",
   "dependencies": {
     "aws-sdk": "^2.1546.0"
+  },
+  "devDependencies": {
+    "serverless-iam-roles-per-function": "^3.2.0"
   }
 }
