@@ -65,11 +65,6 @@ module.exports.updateNote = async (event) => {
       body: JSON.stringify(error.message)
     }
   }
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(`Note with id: ${notesid} has been updated`)
-  };
 };
 
 module.exports.deleteNote = async (event) => {
