@@ -1,12 +1,12 @@
 'use strict';
 
-import {
+const {
   DynamoDBClient,
   PutCommand,
   UpdateCommand,
   DeleteCommand,
   ScanCommand
-} from "@aws-sdk/client-dynamodb";
+} = require("@aws-sdk/client-dynamodb");
 
 const documentClient = new DynamoDBClient({
   region: process.env.AWS_REGION
