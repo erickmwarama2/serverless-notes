@@ -15,6 +15,7 @@ const documentClient = new DynamoDBClient({
 const NOTES_TABLE_NAME = process.env.NOTES_TABLE_NAME;
 
 module.exports.createNote = async (event) => {
+  console.log(event);
   let data = JSON.parse(event.body);
   try {
     const params = {
