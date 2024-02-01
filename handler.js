@@ -8,10 +8,7 @@ const {
   ScanCommand
 } = require("@aws-sdk/client-dynamodb");
 
-const {
-  marshall,
-  unmarshall
-} = require("@aws-sdk/lib-dynamodb");
+const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 
 const documentClient = new DynamoDBClient({
   region: process.env.AWS_REGION
