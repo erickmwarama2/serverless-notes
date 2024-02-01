@@ -1,24 +1,17 @@
 'use strict';
 
-const DynamoDB = require("@aws-sdk/client-dynamodb");
-const {
-  DynamoDBDocumentClient,
+import {
+  DynamoDBClient,
   PutCommand,
   UpdateCommand,
   DeleteCommand,
   ScanCommand
- } = require("@aws-sdk/lib-dynamodb");
-const dynamoDBClient = new DynamoDB({ region: process.env.AWS_REGION });
+} from "@aws-sdk/client-dynamodb";
 
-const documentClient = DynamoDBDocumentClient.from(dynamoDBClient);
+const documentClient = new DynamoDBClient({
+  region: process.env.AWS_REGION
+ });
 
-// const documentClient = new DynamoDB.DocumentClient({
-//   region: "eu-west-1",
-//   maxRetries: 3,
-//   httpOptions: {
-//     timeout: 5000
-//   }
-// });
 const NOTES_TABLE_NAME = process.env.NOTES_TABLE_NAME;
 
 module.exports.createNote = async (event) => {

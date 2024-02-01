@@ -18,5 +18,8 @@
   "homepage": "https://github.com/erickmwarama2/serverless-notes#readme",
   "devDependencies": {
     "serverless-iam-roles-per-function": "^3.2.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.504.0"
   }
 }
