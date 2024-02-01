@@ -61,6 +61,11 @@ functions:
           path: notes/{id}
   getAllNotes:
     handler: handler.getAllNotes
+    iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+      Resource: !GetAtt notesTable.Arn
     events:
       - http:
           method: get
