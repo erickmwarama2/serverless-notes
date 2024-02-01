@@ -8,6 +8,11 @@ const {
   ScanCommand
 } = require("@aws-sdk/client-dynamodb");
 
+const {
+  marshall,
+  unmarshall
+} = require("@aws-sdk/lib-dynamodb");
+
 const documentClient = new DynamoDBClient({
   region: process.env.AWS_REGION
  });
@@ -17,14 +22,16 @@ const NOTES_TABLE_NAME = process.env.NOTES_TABLE_NAME;
 module.exports.createNote = async (event) => {
   console.log(event);
   let data = JSON.parse(event.body);
+  const dataItem = {
+    notesId: data.id,
+    title: data.title,
+    body: data.body
+  };
+
   try {
     const params = {
       TableName: NOTES_TABLE_NAME,
-      Item: {
-        notesId: data.id,
-        title: data.title,
-        body: data.body
-      },
+      Item: marshall(dataItem),
       ConditionExpression: "attribute_not_exists(notesId)"
     };
 
@@ -116,9 +123,10 @@ module.exports.getAllNotes = async (event) => {
 
     // const notes = await documentClient.scan(params).promise();
     const notes = await documentClient.send(new ScanCommand(params));
+    const resNotes = unmarshall(notes);
     return {
       statusCode: 200,
-      body: JSON.stringify(notes)
+      body: JSON.stringify(resNotes)
     };
 
   } catch (error) {
