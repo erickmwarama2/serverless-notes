@@ -2,9 +2,9 @@
 
 const {
   DynamoDBClient,
-  PutCommand,
-  UpdateCommand,
-  DeleteCommand,
+  PutItemCommand,
+  UpdateItemCommand,
+  DeleteItemCommand,
   ScanCommand
 } = require("@aws-sdk/client-dynamodb");
 
@@ -28,7 +28,7 @@ module.exports.createNote = async (event) => {
     };
 
     // await documentClient.put(params).promise();
-    await documentClient.send(new PutCommand(params));
+    await documentClient.send(new PutItemCommand(params));
 
     return {
       statusCode: 201,
@@ -65,7 +65,7 @@ module.exports.updateNote = async (event) => {
     }
 
     // await documentClient.update(params).promise();
-    await documentClient.send(new UpdateCommand(params));
+    await documentClient.send(new UpdateItemCommand(params));
 
     return {
       statusCode: 200,
@@ -92,7 +92,7 @@ module.exports.deleteNote = async (event) => {
     }
 
     // await documentClient.delete(params).promise();
-    await documentClient.send(new DeleteCommand(params));
+    await documentClient.send(new DeleteItemCommand(params));
 
     return {
       statusCode: 200,
