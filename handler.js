@@ -1,7 +1,24 @@
 'use strict';
 
-const DynamoDB = require("aws-sdk/clients/dynamodb");
-const documentClient = new DynamoDB.DocumentClient({region: "eu-west-1"});
+const DynamoDB = require("@aws-sdk/client-dynamodb");
+const {
+  DynamoDBDocumentClient,
+  PutCommand,
+  UpdateCommand,
+  DeleteCommand,
+  ScanCommand
+ } = require("@aws-sdk/lib-dynamodb");
+const dynamoDBClient = new DynamoDB({ region: process.env.AWS_REGION });
+
+const documentClient = DynamoDBDocumentClient.from(dynamoDBClient);
+
+// const documentClient = new DynamoDB.DocumentClient({
+//   region: "eu-west-1",
+//   maxRetries: 3,
+//   httpOptions: {
+//     timeout: 5000
+//   }
+// });
 const NOTES_TABLE_NAME = process.env.NOTES_TABLE_NAME;
 
 module.exports.createNote = async (event) => {
@@ -17,7 +34,8 @@ module.exports.createNote = async (event) => {
       ConditionExpression: "attribute_not_exists(notesId)"
     };
 
-    await documentClient.put(params).promise();
+    // await documentClient.put(params).promise();
+    await documentClient.send(new PutCommand(params));
 
     return {
       statusCode: 201,
@@ -53,7 +71,8 @@ module.exports.updateNote = async (event) => {
       ConditionExpression: 'attribute_exists(notesId)'
     }
 
-    await documentClient.update(params).promise();
+    // await documentClient.update(params).promise();
+    await documentClient.send(new UpdateCommand(params));
 
     return {
       statusCode: 200,
@@ -79,7 +98,8 @@ module.exports.deleteNote = async (event) => {
       ConditionExpression: 'attribute_exists(notesId)'
     }
 
-    await documentClient.delete(params).promise();
+    // await documentClient.delete(params).promise();
+    await documentClient.send(new DeleteCommand(params));
 
     return {
       statusCode: 200,
@@ -100,8 +120,8 @@ module.exports.getAllNotes = async (event) => {
       TableName: NOTES_TABLE_NAME,
     };
 
-    const notes = await documentClient.scan(params).promise();
-
+    // const notes = await documentClient.scan(params).promise();
+    const notes = await documentClient.send(new ScanCommand(params));
     return {
       statusCode: 200,
       body: JSON.stringify(notes)

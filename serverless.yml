@@ -8,7 +8,8 @@ provider:
   stage: dev
   environment:
     NOTES_TABLE_NAME: !Ref notesTable
-
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    AWS_REGION: eu-west-1
 
 resources:
   Resources:
