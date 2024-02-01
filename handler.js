@@ -120,10 +120,10 @@ module.exports.getAllNotes = async (event) => {
 
     // const notes = await documentClient.scan(params).promise();
     const notes = await documentClient.send(new ScanCommand(params));
-    const resNotes = unmarshall(notes);
+    // const resNotes = unmarshall(notes);
     return {
       statusCode: 200,
-      body: JSON.stringify(resNotes)
+      body: JSON.stringify(notes)
     };
 
   } catch (error) {
