@@ -22,7 +22,7 @@ const generatePolicy = (principalId, effect, resource) => {
     };
 
     console.log(JSON.stringify(authResponse));
-    return authResponse;
+    return JSON.stringify(authResponse);
 };
 
 exports.handler = (event, context) => {
