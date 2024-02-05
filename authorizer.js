@@ -1,4 +1,4 @@
-const generatePolicy = (principalId, effect, resource) => {
+const generatePolicy = async (principalId, effect, resource) => {
     let authResponse = {};
     authResponse.principalId = principalId;
 
@@ -22,18 +22,17 @@ const generatePolicy = (principalId, effect, resource) => {
     };
 
     console.log(JSON.stringify(authResponse));
-    return JSON.stringify(authResponse);
+    return authResponse;
 };
 
-exports.handler = (event, context) => {
+exports.handler = async (event, context) => {
     let token = event.authorizationToken;
 
     switch (token) {
         case "allow":
-            return generatePolicy("user", "Allow", event.methodArn);
+            return await generatePolicy("user", "Allow", event.methodArn);
         case "deny":
-            return generatePolicy("user", "Deny", event.methodArn);
-            break;
+            return await generatePolicy("user", "Deny", event.methodArn);
         default:
             return "Invalid token";
     }
