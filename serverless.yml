@@ -24,6 +24,8 @@ resources:
           - AttributeName: notesId
             KeyType: HASH
 functions:
+  authorizer:
+    handler: authorizer.handler
   createNote:
     handler: handler.createNote
     environment:
@@ -37,6 +39,7 @@ functions:
       - http:
           method: post
           path: notes
+          authorizer: authorizer
   updateNote:
     handler: handler.updateNote
     iamRoleStatements:
@@ -48,6 +51,7 @@ functions:
       - http:
           method: put
           path: notes/{id}
+          authorizer: authorizer
   deleteNote:
     handler: handler.deleteNote
     iamRoleStatements:
@@ -59,6 +63,7 @@ functions:
       - http:
           method: delete
           path: notes/{id}
+          authorizer: authorizer
   getAllNotes:
     handler: handler.getAllNotes
     iamRoleStatements:
@@ -70,6 +75,7 @@ functions:
       - http:
           method: get
           path: notes
+          authorizer: authorizer
 
 plugins:
   - serverless-iam-roles-per-function
