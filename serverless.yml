@@ -69,7 +69,7 @@ functions:
           method: get
           path: notes
           authorizer:
-            name: userpool_authorizer
+            name: my_userpool_authorizer
             arn: !GetAtt cognitoUserPool.Arn
 
 plugins:
