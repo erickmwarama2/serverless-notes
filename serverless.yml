@@ -16,6 +16,9 @@ resources:
 functions:
   authorizer:
     handler: authorizer.handler
+    environment:
+      COGNITO_USER_POOL_ID: !Ref cognitoUserPool
+      COGNITO_WEB_CLIENT_ID: !Ref cognitoUserPoolClient
   createNote:
     handler: handler.createNote
     environment:
@@ -67,7 +70,7 @@ functions:
           path: notes
           authorizer:
             name: userpool_authorizer
-            arn: arn:aws:cognito-idp:eu-west-1:525060345766:userpool/eu-west-1_bgT50CJka
+            arn: !GetAtt cognitoUserPool.Arn
 
 plugins:
   - serverless-iam-roles-per-function
