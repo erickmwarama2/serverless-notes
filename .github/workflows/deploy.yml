@@ -38,5 +38,7 @@ jobs:
         run: serverless config credentials --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_ACCESS_SECRET }} --provider aws --overwrite
       - name: Install npm dependencies
         run: npm install
+      - name: Install iam role plugin
+        run: serverless plugin install serverless-iam-roles-per-function
       - name: Deploy service
         run: serverless deploy --region eu-west-1 --stage sandbox --verbose
