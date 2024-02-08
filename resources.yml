@@ -13,13 +13,13 @@ notesTable:
 cognitoUserPool:
   Type: AWS::Cognito::UserPool
   Properties:
-    UserPoolName: ${self:provider.stage}-NotesUserPool
+    UserPoolName: devNotesUserPool
 
 cognitoUserPoolClient:
   Type: AWS::Cognito::UserPoolClient
   Properties:
     UserPoolId: !Ref cognitoUserPool
-    ClientName: web-${self:provider.stage}
+    ClientName: web
     AllowedOAuthFlows:
       - implicit
     CallbackURLs:
