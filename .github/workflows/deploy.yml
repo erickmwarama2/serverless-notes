@@ -42,7 +42,5 @@ jobs:
         run: serverless plugin install --name serverless-iam-roles-per-function
       - name: Install typescript plugin
         run: serverless plugin install --name serverless-plugin-typescript
-      - name: Install esbuild plugin
-        run: serverless plugin install --name serverless-esbuild
       - name: Deploy service
         run: serverless deploy --region eu-west-1 --stage sandbox --verbose
