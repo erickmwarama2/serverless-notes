@@ -75,3 +75,4 @@ functions:
 
 plugins:
   - serverless-iam-roles-per-function
+  - serverless-plugin-typescript

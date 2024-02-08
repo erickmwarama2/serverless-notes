@@ -40,5 +40,7 @@ jobs:
         run: npm install
       - name: Install iam role plugin
         run: serverless plugin install --name serverless-iam-roles-per-function
+      - name: Install typescript plugin
+        run: serverless plugin install --name serverless-plugin-typescript
       - name: Deploy service
         run: serverless deploy --region eu-west-1 --stage sandbox --verbose

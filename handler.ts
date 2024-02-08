@@ -1,24 +1,27 @@
-'use strict';
-
-const {
+import {
   DynamoDBClient,
   PutItemCommand,
   UpdateItemCommand,
   DeleteItemCommand,
   ScanCommand
-} = require("@aws-sdk/client-dynamodb");
+} from "@aws-sdk/client-dynamodb";
 
-const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
+import {
+  APIGatewayEvent,
+  APIGatewayProxyResult,
+  Context
+} from "aws-lambda";
 
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 const documentClient = new DynamoDBClient({
   region: process.env.AWS_REGION
  });
 
 const NOTES_TABLE_NAME = process.env.NOTES_TABLE_NAME;
 
-module.exports.createNote = async (event) => {
+export const createNote = async (event: APIGatewayEvent, context: Context) => {
   console.log(event);
-  let data = JSON.parse(event.body);
+  let data = JSON.parse(event.body as string);
   const dataItem = {
     notesId: data.id,
     title: data.title,
@@ -47,16 +50,14 @@ module.exports.createNote = async (event) => {
   }
 };
 
-module.exports.updateNote = async (event) => {
-  let notesId = event.pathParameters.id;
-  let data = JSON.parse(event.body);
+export const updateNote = async (event: APIGatewayEvent) => {
+  let notesId = event.pathParameters?.id!;
+  let data = JSON.parse(event.body as string);
 
   try {
     const params = {
       TableName: NOTES_TABLE_NAME,
-      Key: {
-        notesId
-      },
+      Key: { "notesId": {"S": notesId} },
       UpdateExpression: `set #title = :title, #body = :body`,
       ExpressionAttributeNames: {
         '#title': 'title',
@@ -79,22 +80,20 @@ module.exports.updateNote = async (event) => {
   } catch (err) {
     return {
       statusCode: 400,
-      body: JSON.stringify(error.message)
+      body: JSON.stringify(err.message)
     }
   }
 };
 
-module.exports.deleteNote = async (event) => {
-  let notesId = event.pathParameters.id;
+export const deleteNote = async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
+  let notesId = event.pathParameters?.id!;
 
   try {
     const params = {
       TableName: NOTES_TABLE_NAME,
-      Key: {
-        notesId
-      },
+      Key: { "notesId": {"S": notesId} },
       ConditionExpression: 'attribute_exists(notesId)'
-    }
+    };
 
     // await documentClient.delete(params).promise();
     await documentClient.send(new DeleteItemCommand(params));
@@ -111,7 +110,7 @@ module.exports.deleteNote = async (event) => {
   }
 };
 
-module.exports.getAllNotes = async (event) => {
+export const getAllNotes = async (event: APIGatewayEvent) => {
 
   try {
     const params = {
@@ -120,7 +119,7 @@ module.exports.getAllNotes = async (event) => {
 
     // const notes = await documentClient.scan(params).promise();
     const notes = await documentClient.send(new ScanCommand(params));
-    notes.Items = notes.Items.map(item => unmarshall(item));
+    notes.Items = notes.Items?.map(item => unmarshall(item));
     // const resNotes = unmarshall(notes);
     return {
       statusCode: 200,

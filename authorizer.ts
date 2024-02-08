@@ -1,3 +1,5 @@
+import { APIGatewayAuthorizerResult, APIGatewayTokenAuthorizerEvent, AuthResponse, Context, PolicyDocument } from "aws-lambda";
+
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
 const jwtVerifier = CognitoJwtVerifier.create({
     userPoolId: process.env.COGNITO_USER_POOL_ID,
@@ -5,12 +7,10 @@ const jwtVerifier = CognitoJwtVerifier.create({
     clientId: process.env.COGNITO_WEB_CLIENT_ID
 });
 
-const generatePolicy = async (principalId, effect, resource) => {
-    let authResponse = {};
-    authResponse.principalId = principalId;
+export const generatePolicy = async (principalId: string, effect, resource) => {
 
     if (effect && resource) {
-        let policyDocument = {
+        let policyDocument: PolicyDocument = {
             Version: "2012-10-17",
             Statement: [
                 {
@@ -21,18 +21,22 @@ const generatePolicy = async (principalId, effect, resource) => {
             ]
         };
 
-        authResponse.policyDocument = policyDocument;
+        let authResponse: AuthResponse = {
+            principalId,
+            policyDocument,
+            context: {
+                foo: "The value has to be bar"
+            }
+        };
+
+        console.log(JSON.stringify(authResponse));
+        return authResponse;
     }
 
-    authResponse.context = {
-        foo: "The value of foo is bar"
-    };
-
-    console.log(JSON.stringify(authResponse));
-    return authResponse;
+    throw new Error('Invalid request');
 };
 
-exports.handler = async (event, context) => {
+export const handler = async (event: APIGatewayTokenAuthorizerEvent, context: Context): Promise<APIGatewayAuthorizerResult> => {
     let token = event.authorizationToken;
     console.log(token);
 
