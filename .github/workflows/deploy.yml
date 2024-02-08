@@ -44,7 +44,5 @@ jobs:
         run: serverless plugin install --name serverless-plugin-typescript
       - name: Install esbuild plugin
         run: serverless plugin install --name serverless-esbuild
-      - name: Package
-        run: serverless package --stage sandbox
       - name: Deploy service
         run: serverless deploy --region eu-west-1 --stage sandbox --verbose
