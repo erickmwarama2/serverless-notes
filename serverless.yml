@@ -72,7 +72,12 @@ functions:
             name: my_userpool_authorizer
             type: COGNITO_USER_POOLS
             arn: !GetAtt cognitoUserPool.Arn
+custom:
+  esbuild:
+    minify: true
+    bundle: true
 
 plugins:
   - serverless-iam-roles-per-function
   - serverless-plugin-typescript
+  - serverless-esbuild
