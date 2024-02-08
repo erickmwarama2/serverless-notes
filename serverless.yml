@@ -73,6 +73,7 @@ functions:
             type: COGNITO_USER_POOLS
             arn: !GetAtt cognitoUserPool.Arn
 custom:
+  stage: ${opt:stage, self:provider.stage}
   esbuild:
     minify: true
     bundle: true
