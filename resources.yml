@@ -71,12 +71,12 @@ cloudFrontDistribution:
   Properties:
     DistributionConfig:
       Enabled: true
-      DefaultCacheBehaviour:
+      DefaultCacheBehavior:
         TargetOriginId: notesApiOrigin
         CachePolicyId: !Ref notesApiCachePolicy
         ViewerProtocolPolicy: https-only
-      CacheBehaviour:
-        - PathPatterns: /dev/*
+      CacheBehaviors:
+        - PathPattern: /dev/*
           TargetOriginId: notesApiOrigin
           CachePolicyId: !Ref notesApiCachePolicy
           ViewerProtocolPolicy: https-only
