@@ -61,7 +61,7 @@ notesApiCachePolicy:
         EnableAcceptEncodingGzip: true
         HeadersConfig:
           HeaderBehavior: whitelist
-          Header:
+          Headers:
             - Authorization
         QueryStringsConfig:
           QueryStringBehavior: none
