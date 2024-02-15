@@ -56,7 +56,7 @@ notesApiCachePolicy:
       Name: NotesApiCachePolicy
       ParametersInCacheKeyAndForwardedToOrigin:
         CookiesConfig:
-          CookieBehaviour: none
+          CookieBehavior: none
         EnableAcceptEncodingBrotli: true
         EnableAcceptEncodingGzip: true
         HeadersConfig:
