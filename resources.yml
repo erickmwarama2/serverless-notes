@@ -45,3 +45,48 @@ userPoolIdParam:
     Type: String
     Name: /notes/${self:provider.stage}/userpoolId
     Value: !GetAtt cognitoUserPool.Arn
+
+notesApiCachePolicy:
+  Type: AWS::CloudFront::CachePolicy
+  Properties:
+    CachePolicyConfig:
+      DefaultTTL: 300
+      MaxTTL: 31536000
+      MinTTL: 60
+      Name: NotesApiCachePolicy
+      ParametersInCacheKeyAndForwardedToOrigin:
+        CookiesConfig:
+          CookieBehaviour: none
+        EnableAcceptEncodingBrotli: true
+        EnableAcceptEncodingGzip: true
+        HeadersConfig:
+          HeaderBehavior: whitelist
+          Header:
+            - Authorization
+        QueryStringsConfig:
+          QueryStringBehavior: none
+
+cloudFrontDistribution:
+  Type: AWS::CloudFront::Distribution
+  Properties:
+    DistributionConfig:
+      Enabled: true
+      DefaultCacheBehaviour:
+        TargetOriginId: notesApiOrigin
+        CachePolicyId: !Ref notesApiCachePolicy
+        ViewerProtocolPolicy: https-only
+      CacheBehaviour:
+        - PathPatterns: /dev/*
+          TargetOriginId: notesApiOrigin
+          CachePolicyId: !Ref notesApiCachePolicy
+          ViewerProtocolPolicy: https-only
+      Origins:
+        - Id: notesApiOrigin
+          DomainName: !Join
+            - "."
+            - - !Ref ApiGatewayRestApi
+              - "execute-api"
+              - ${self:provider.region}
+              - "amazonaws.com"
+          CustomOriginConfig:
+            OriginProtocolPolicy: https-only
