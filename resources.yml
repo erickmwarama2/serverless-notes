@@ -51,7 +51,7 @@ notesApplicationWebAcl:
   Properties:
     Scope: CLOUDFRONT
     Rules:
-      - Name:
+      - Name: commonManagedRules
         Priority: 1
         Statement:
           ManagedRuleGroupStatement:
