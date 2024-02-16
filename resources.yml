@@ -62,7 +62,7 @@ notesApplicationWebAcl:
           MetricName: myWafRuleLogs
           SampledRequestsEnabled: true
     DefaultAction:
-      BlockAction:
+      Block:
         CustomResponse:
           ResponseCode: 405
           ResponseHeaders:
