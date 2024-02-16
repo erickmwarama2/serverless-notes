@@ -49,7 +49,7 @@ userPoolIdParam:
 notesApplicationWebAcl:
   Type: AWS::WAFv2::WebACL
   Properties:
-    Scope: CLOUDFRONT
+    Scope: REGIONAL
     Rules:
       - Name: commonManagedRules
         Priority: 1
