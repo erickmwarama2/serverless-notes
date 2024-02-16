@@ -13,7 +13,7 @@ notesTable:
 cognitoUserPool:
   Type: AWS::Cognito::UserPool
   Properties:
-    UserPoolName: devNotesUserPool
+    UserPoolName: devNotesUserPool--${self:provider.stage}
 
 cognitoUserPoolClient:
   Type: AWS::Cognito::UserPoolClient
@@ -50,7 +50,7 @@ notesApplicationWebAcl:
   Type: AWS::WAFv2::WebACL
   Properties:
     Scope: CLOUDFRONT
-    Name: notesApplicationWebAcl
+    Name: notesApplicationWebAcl--${self:provider.stage}
     Rules:
       - Name: commonManagedRules
         Priority: 1
@@ -68,7 +68,7 @@ notesApplicationWebAcl:
       Allow: {}
     VisibilityConfig:
       CloudWatchMetricsEnabled: true
-      MetricName: myWafLogs
+      MetricName: myWafLogs--${self:provider.stage}
       SampledRequestsEnabled: true
 
 notesApiCachePolicy:
@@ -78,7 +78,7 @@ notesApiCachePolicy:
       DefaultTTL: 300
       MaxTTL: 31536000
       MinTTL: 60
-      Name: NotesApiCachePolicy
+      Name: NotesApiCachePolicy-${self:provider.stage}
       ParametersInCacheKeyAndForwardedToOrigin:
         CookiesConfig:
           CookieBehavior: none
