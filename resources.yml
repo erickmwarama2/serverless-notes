@@ -105,7 +105,7 @@ cloudFrontDistribution:
           TargetOriginId: notesApiOrigin
           CachePolicyId: !Ref notesApiCachePolicy
           ViewerProtocolPolicy: https-only
-      WebACLId: !GetAtt notesApplicationWebAcl.Id
+      WebACLId: !GetAtt notesApplicationWebAcl.Arn
       Origins:
         - Id: notesApiOrigin
           DomainName: !Join
