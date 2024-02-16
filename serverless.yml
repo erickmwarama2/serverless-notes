@@ -4,8 +4,8 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
-  region: eu-west-1
-  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  stage: ${opt:stage, 'prod'}
   environment:
     NOTES_TABLE_NAME: !Ref notesTable
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1

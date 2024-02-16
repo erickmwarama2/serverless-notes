@@ -43,4 +43,4 @@ jobs:
       - name: Install typescript plugin
         run: serverless plugin install --name serverless-plugin-typescript
       - name: Deploy service
-        run: serverless deploy --region eu-west-1 --stage sandbox --verbose
+        run: serverless deploy --region us-east-1 --stage prod --verbose
