@@ -54,6 +54,8 @@ notesApplicationWebAcl:
     Rules:
       - Name: commonManagedRules
         Priority: 1
+        OverrideAction:
+          Count: {}
         Statement:
           ManagedRuleGroupStatement:
             VendorName: AWS
