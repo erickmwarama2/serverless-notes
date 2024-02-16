@@ -46,6 +46,33 @@ userPoolIdParam:
     Name: /notes/${self:provider.stage}/userpoolId
     Value: !GetAtt cognitoUserPool.Arn
 
+notesApplicationWebAcl:
+  Type: AWS::WAFv2::WebACL
+  Properties:
+    Scope: CLOUDFRONT
+    Rules:
+      - Name:
+        Priority: 1
+        Statement:
+          ManagedRuleGroupStatement:
+            VendorName: AWS
+            Name: AWSManagedRulesCommonRuleSet
+        VisibilityConfig:
+          CloudWatchMetricsEnabled: true
+          MetricName: myWafRuleLogs
+          SampledRequestsEnabled: true
+    DefaultAction:
+      BlockAction:
+        CustomResponse:
+          ResponseCode: 405
+          ResponseHeaders:
+            - Name: x-cf-reject
+              Value: Rejected
+    VisibilityConfig:
+      CloudWatchMetricsEnabled: true
+      MetricName: myWafLogs
+      SampledRequestsEnabled: true
+
 notesApiCachePolicy:
   Type: AWS::CloudFront::CachePolicy
   Properties:
@@ -80,6 +107,7 @@ cloudFrontDistribution:
           TargetOriginId: notesApiOrigin
           CachePolicyId: !Ref notesApiCachePolicy
           ViewerProtocolPolicy: https-only
+      WebACLId: !GetAtt notesApplicationWebAcl.Id
       Origins:
         - Id: notesApiOrigin
           DomainName: !Join
