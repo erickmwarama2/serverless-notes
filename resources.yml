@@ -50,6 +50,7 @@ notesApplicationWebAcl:
   Type: AWS::WAFv2::WebACL
   Properties:
     Scope: REGIONAL
+    Name: notesApplicationWebAcl
     Rules:
       - Name: commonManagedRules
         Priority: 1
@@ -71,11 +72,7 @@ notesApplicationWebAcl:
           MetricName: myWafRuleLogs
           SampledRequestsEnabled: true
     DefaultAction:
-      Allow:
-        CustomRequestHandling:
-          InsertHeaders:
-            - Name: x-cf-accept
-              Value: safe
+      Allow: {}
     VisibilityConfig:
       CloudWatchMetricsEnabled: true
       MetricName: myWafLogs
