@@ -57,17 +57,25 @@ notesApplicationWebAcl:
           ManagedRuleGroupStatement:
             VendorName: AWS
             Name: AWSManagedRulesCommonRuleSet
+            RuleActionOverrides:
+              - Name: managedRuleOverride
+                ActionToUse:
+                  Block:
+                    CustomResponse:
+                      ResponseCode: 405
+                      ResponseHeaders:
+                        - Name: x-cf-reject
+                          Value: Rejected
         VisibilityConfig:
           CloudWatchMetricsEnabled: true
           MetricName: myWafRuleLogs
           SampledRequestsEnabled: true
     DefaultAction:
-      Block:
-        CustomResponse:
-          ResponseCode: 405
-          ResponseHeaders:
-            - Name: x-cf-reject
-              Value: Rejected
+      Allow:
+        CustomRequestHandling:
+          InsertHeaders:
+            - Name: x-cf-accept
+              Value: safe
     VisibilityConfig:
       CloudWatchMetricsEnabled: true
       MetricName: myWafLogs
